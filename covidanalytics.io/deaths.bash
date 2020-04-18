@@ -1,1 +1,3 @@
-egrep $1 covid_analytics_projections.csv | sort -t, -k7,7 -n -r
+where=$1
+when=$2
+egrep "$where" covid_analytics_projections.csv | egrep "$when" | sort -t, -k9,9 -n -r
