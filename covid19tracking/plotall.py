@@ -3,6 +3,8 @@ def main():
     tests = open('tests.csv','w')
     positives = open('positives.csv','w')
     hospitalizations = open('hospitalizations.csv','w')
+    hcurrent = open('hcurrent.csv','w')
+    icu = open('icu.csv','w')
     deaths = open('deaths.csv','w')
     recovered = open('recovered.csv','w')
     for l in sys.stdin:
@@ -22,29 +24,46 @@ def main():
             pending = int(f[4])
         except:
             pending = 0
-        print >>tests, d, pos+neg+pending
+        n_tests = pos+neg+pending
+        print >>tests, d, n_tests
         print >>positives, d, pos
-        hcurrent = h = h15 = None
         try:
-            hcurrent = int(f[5])
+            n_hcurrent = int(f[5])
         except:
-            pass
+            n_hcurrent = None
         try:
             h = int(f[6])
         except:
-            pass
+            h = None
         try:
-            h15 = int(f[15])
+            h17 = int(f[17])
         except:
-            pass
-        n = h
-        if n is None:
-            n = h15
-        if n is not None:
-            print >>hospitalizations, d, n
+            h17 = None
+        if h is not None:
+            n = h
+        elif h17 is not None:
+            n = h17
+        else:
+            n = n_hcurrent
+        n_hospitalizations = n
+        if n_hospitalizations is not None and n_hospitalizations != n_tests:
+            print >>hospitalizations, d, n_hospitalizations
         try:
-            n = int(f[14])
-            print >>deaths, d, n
+            n = int(f[5])
+        except:
+            n = None
+        if n is not None:
+            print >>hcurrent, d, n
+        try:
+            n = int(f[7])
+        except:
+            n = None
+        if n is not None:
+            print >>icu, d, n
+        try:
+            n = int(f[16])
+            if n != n_tests:
+                print >>deaths, d, n
         except:
             pass
         try:
