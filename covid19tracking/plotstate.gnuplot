@@ -1,6 +1,6 @@
 set xdata time
 set timefmt '%Y%m%d'
-set xrange ['20200301':'20200701']
+set xrange ['20200301':'20200801']
 set logscale y
 set yrange [10:@YLIMIT@]
 set terminal png
