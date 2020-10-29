@@ -1,8 +1,8 @@
 set xdata time
 set timefmt '%Y%m%d'
-set xrange ['20200301':'20200701']
+set xrange ['20200301':'20201201']
 set logscale y
-set yrange [100:100000000]
+set yrange [100:1000000]
 set terminal png
 set output 'covid-19-usa.png'
 set key right bottom

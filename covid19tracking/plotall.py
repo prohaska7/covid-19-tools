@@ -1,4 +1,5 @@
 import sys
+schema = {}
 def main():
     tests = open('tests.csv','w')
     positives = open('positives.csv','w')
@@ -10,68 +11,66 @@ def main():
     for l in sys.stdin:
         f = l.split(',')
         if f[0] == 'date':
+            build_schema(f)
             continue
         d = f[0]
+
         try:
-            pos = int(f[2])
+            pos = int(f[schema['positiveIncrease']])
         except:
             pos = 0
         try:
-            neg = int(f[3])
+            neg = int(f[schema['negativeIncrease']])
         except:
             neg = 0
-        try:
-            pending = int(f[4])
-        except:
-            pending = 0
-        n_tests = pos+neg+pending
-        print >>tests, d, n_tests
+        print >>tests, d, pos+neg
         print >>positives, d, pos
+
         try:
-            n_hcurrent = int(f[5])
+            n = int(f[schema['hospitalizedCumulative']])
         except:
-            n_hcurrent = None
+            try:
+                n = int(f[schema['hospitalized']])
+            except:
+                try:
+                    n = int(f[schema['hospitalizedIncrease']])
+                except:
+                    n = None
+        if False and n is not None:
+            print >>hospitalizations, d, n
+
         try:
-            h = int(f[6])
-        except:
-            h = None
-        try:
-            h17 = int(f[17])
-        except:
-            h17 = None
-        if h is not None:
-            n = h
-        elif h17 is not None:
-            n = h17
-        else:
-            n = n_hcurrent
-        n_hospitalizations = n
-        if n_hospitalizations is not None and n_hospitalizations != n_tests:
-            print >>hospitalizations, d, n_hospitalizations
-        try:
-            n = int(f[5])
+            n = int(f[schema['hospitalizedCurrently']])
         except:
             n = None
         if n is not None:
             print >>hcurrent, d, n
+
         try:
-            n = int(f[7])
+            n = int(f[schema['inIcuCurrently']])
         except:
             n = None
         if n is not None:
             print >>icu, d, n
+
         try:
-            n = int(f[16])
-            if n != n_tests:
-                print >>deaths, d, n
+            n = int(f[schema['deathIncrease']])
         except:
-            pass
+            n = None
+        if n is not None:
+            print >>deaths, d, n
+
         try:
-            n = int(f[11])
+            n = int(f[schema['recovered']])
+        except:
+            n = None
+        if False and n is not None:
             print >>recovered, d, n
-        except:
-            pass
-    return
+
+    return 0
+def build_schema(f):
+    for i in range(len(f)):
+        schema[f[i]] = i
 if __name__ == '__main__':
-    main()
+    sys.exit(main())
     
