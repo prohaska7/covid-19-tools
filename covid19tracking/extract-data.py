@@ -5,6 +5,7 @@ def main():
     positives = open('positives.csv','w')
     hospitalizations = open('hospitalizations.csv','w')
     hcurrent = open('hcurrent.csv','w')
+    hincrease = open('hincrease.csv', 'w')
     icu = open('icu.csv','w')
     deaths = open('deaths.csv','w')
     recovered = open('recovered.csv','w')
@@ -66,6 +67,13 @@ def main():
             n = None
         if False and n is not None:
             print >>recovered, d, n
+
+        try:
+            n = int(f[schema['hospitalizedIncrease']])
+        except:
+            n = None
+        if n is not None and n > 0:
+            print >>hincrease, d, n
 
     return 0
 def build_schema(f):

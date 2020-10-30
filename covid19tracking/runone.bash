@@ -1,6 +1,7 @@
-STATE=$*
+STATE=MA
+if [ $# -ge 1 ] ; then STATE=$1; fi
 YLIMIT=100000
-if [ $# = 2 ] ; then YLIMIT=$2;fi
+if [ $# -ge 2 ] ; then YLIMIT=$2; fi
 egrep "date|$STATE" states_daily_4pm_et.csv >$STATE.csv
 python ~/github.com/prohaska7/covid-19-tools/covid19tracking/extract-data.py <$STATE.csv
 temp=$(mktemp)
