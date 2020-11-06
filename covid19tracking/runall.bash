@@ -1,5 +1,4 @@
-python ~/github.com/prohaska7/covid-19-tools/covid19tracking/extract-data.py < us_daily.csv
-gnuplot ~/github.com/prohaska7/covid-19-tools/covid19tracking/plotall.gnuplot 
+bash ~/github.com/prohaska7/covid-19-tools/covid19tracking/runone.bash USA 100:2000000
 for state in MA IL SC CT OH IA; do
-    bash ~/github.com/prohaska7/covid-19-tools/covid19tracking/runone.bash $state 100000
+    bash ~/github.com/prohaska7/covid-19-tools/covid19tracking/runone.bash $state 10:100000
 done

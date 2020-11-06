@@ -2,7 +2,7 @@ set xdata time
 set timefmt '%Y%m%d'
 set xrange ['20200301':'20201201']
 set logscale y
-set yrange [10:@YLIMIT@]
+set yrange [@YRANGE@]
 set terminal png size 800,600
 set output 'covid-19-@STATE@.png'
 set key left top vertical Left reverse
