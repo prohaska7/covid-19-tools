@@ -1,35 +1,36 @@
 def main():
     # import state population
-    pop = {}
-    fd = open('states_population.csv','r')
-    if fd:
+    pop = {} # map state name -> population
+    with open('states_population.csv','r') as fd:
         for l in fd:
             l = l[:-1]
             f = l.split(',')
             pop[f[0]] = int(f[2])
             pop[f[1]] = int(f[2])
-        fd.close()
 
     # import total tests per state
-    tests = {}
-    fd = open('states_current.csv','r')
-    if fd:
+    tests = {} # map state name -> number of tests
+    schema = {} # map column name -> column index
+    with open('states_current.csv','r') as fd:
         for l in fd:
             l = l[:-1]
             f = l.split(',')
+            if f[0] == 'date':
+                for i in range(len(f)):
+                    schema[f[i]] = i
+                continue
             try:
-                tests[f[0]] = int(f[22])
+                tests[f[schema['state']]] = int(f[schema[f[schema['totalTestResultsSource']]]])
             except:
                 pass
-        fd.close()
 
     # compute per capita tests per state
     for s in tests.keys():
         if not tests.has_key(s):
-            # print s, 'skipped tests'
+            print s, 'skipped tests'
             continue
         if not pop.has_key(s):
-            # print s, 'skipped pop'
+            print s, 'skipped pop'
             continue
         print "%s\t%d\t%d\t%.2f%%" % (s, tests[s], pop[s], 100.0*float(tests[s])/pop[s])
 
